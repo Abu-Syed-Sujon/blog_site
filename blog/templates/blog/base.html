@@ -31,8 +31,26 @@
                 </div>
                 <!-- Navbar Right Side -->
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link" href="#">Login</a>
-                    <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                    {% if user.is_authenticated %}
+    <div class="d-flex align-items-center">
+        <!-- Logout Form -->
+        <form method="post" action="{% url 'logout' %}" class="m-0">
+            {% csrf_token %}
+            <button type="submit" class="nav-link btn btn-link p-0 border-0" style="text-decoration: none; line-height: inherit;">
+                Logout
+            </button>
+        </form>
+
+        <!-- Profile Link -->
+        <a class="nav-item nav-link ms-3" href="{% url 'profile' %}">Profile</a>
+    </div>
+{% else %}
+    <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+    <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+{% endif %}
+
+                    
+                    
                 </div>
             </div>
             </div>

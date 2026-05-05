@@ -122,3 +122,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+# Redirect to home url after login (Default redirects to /accounts/profile/)
+LOGIN_REDIRECT_URL = 'blog-home'
+#LOGIN_URL = 'login'
+#LOGOUT_REDIRECT_URL = 'blog-home'
