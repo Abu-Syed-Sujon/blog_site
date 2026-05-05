@@ -1,14 +1,13 @@
-from django.contrib import messages
-
 from django.shortcuts import redirect, render
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+from .forms import UserRegisterForm
 
 # Create your views here.
 
 def registration_view(request):
     '''View for user registration.'''
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UserRegisterForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             form.save()
@@ -18,6 +17,6 @@ def registration_view(request):
         #else:
           #  return render(request, 'users/registration.html', {'form': form})
     else:
-        form = UserCreationForm()
+        form = UserRegisterForm()
         
     return render(request, 'users/registration.html', {'form': form})
