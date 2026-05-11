@@ -3,8 +3,25 @@
 
 {% block content %}
     <div class="content-section">
-        <h2>Profile Page</h2>
-        <p>Welcome to your profile page,<h2>{{ user.username }}!</h2> </p>
-        <p>This is where you can view and manage your account details.</p>
+         <div class="media">
+            {% if user_profile.profile_picture %}
+            <img class="rounded-circle account-img" src="{{ user_profile.profile_picture.url }}" alt="Profile Picture" width="200">
+            {% else %}
+                <img class="rounded-circle account-img" src="/media/profile_pics/default.jpg" alt="Default Profile" width="200">
+            {% endif %}
+            
+        </div>
+        <div class="media-body">
+            <h2>Profile Page</h2>
+            <p>Welcome to your profile page, <strong>{{ user.username }}!</strong> </p>
+            <p> <strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Bio:</strong> {{ user_profile.bio }}</p>
+            <p><strong>Address:</strong> {{ user_profile.address }}</p>
+            <p><strong>Phone:</strong> {{ user_profile.phone }}</p>
+            <p><strong>Birth Date:</strong> {{ user_profile.birth_date }}</p>
+            <p>This is where you can view and manage your account details.</p>
+        </div>
+        
+       
     </div>
 {% endblock content %}
