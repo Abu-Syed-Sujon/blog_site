@@ -1,15 +1,18 @@
-{% extends "blog/base.html" %}
+{% extends "blog/base.html" %} {% block content %}
 
-{% block content %}
-    <h1>Welcome to My Blog</h1>
-    <p>This is the home page of my blog site.</p>
+{%for post in posts %}
+<article class="media content-section">
+     <img class="rounded-circle article-img" src="{{post.author.profile.profile_picture.url}}" alt="Profile Picture">
+    <div class="media-body">
+        <div class="article-metadata">
+                <a class="mr-2" href="#">{{post.author}}</a>
+                <small class="text-muted">{{post.posted_at}}</small>
+        </div>
+        <h2><a class="article-title" href="#">{{post.title}}</a></h2>
 
-    {%for post in posts %}
+        <p class="article-title">{{post.content}}</p>
+       <!--<p>Posted by {{post.author}} on {{post.posted_at}}</p>--> 
+    </div>
+</article>
 
-    <h2>{{post.title}}</h2>
-    <p>{{post.content}}</p>
-    <p>Posted by {{post.author}} on {{post.posted_at}}</p>
-
-    {% endfor %}
-
-{% endblock %}
+{% endfor %} {% endblock %}
