@@ -49,6 +49,18 @@ a.article-title:hover {
   white-space: pre-line;
 }
 
+/* Home preview: limit post content to two lines on listing pages. */
+.article-preview {
+  color: #444444;
+  line-height: 1.5;
+  max-height: 3em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: pre-line;
+}
+
 .article-img {
   height: 65px;
   width: 65px;
