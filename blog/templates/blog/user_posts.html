@@ -1,26 +1,28 @@
-{% extends "blog/base.html" %} {% block content %}
+{% extends "blog/base.html" %}
+{% block content %}
 
-{%for post in posts %}
+{# Specific-user list heading. #}
+<h1 class="mb-3">Posts by {{ post_author.username }}</h1>
+
+{% for post in posts %}
 <article class="media content-section">
-     <img class="rounded-circle article-img" src="{{post.author.profile.profile_picture.url}}" alt="Profile Picture">
+    <img class="rounded-circle article-img" src="{{ post.author.profile.profile_picture.url }}" alt="Profile Picture">
     <div class="media-body">
         <div class="article-metadata">
-                {# Specific-user list link: opens all posts written by this author. #}
-                <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{post.author}}</a>
-                <small class="text-muted">{{post.posted_at}}</small>
+            <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+            <small class="text-muted">{{ post.posted_at }}</small>
         </div>
-        <h2><a class="article-title" href="{% url 'post-detail' post.pk %}">{{post.title}}</a></h2>
-
-        <p class="article-title">{{post.content}}</p>
-       <!--<p>Posted by {{post.author}} on {{post.posted_at}}</p>--> 
+        <h2><a class="article-title" href="{% url 'post-detail' post.pk %}">{{ post.title }}</a></h2>
+        <p class="article-content">{{ post.content }}</p>
     </div>
 </article>
+{% empty %}
+<p class="content-section">This user has not written any posts yet.</p>
+{% endfor %}
 
-{% endfor %} 
- 
-{# Pagination controls for the blog home feed. #}
+{# Pagination controls for the specific-user post list. #}
 {% if is_paginated %}
-<nav aria-label="Blog post pagination">
+<nav aria-label="User post pagination">
     <ul class="pagination justify-content-center">
         {% if page_obj.has_previous %}
             <li class="page-item">
@@ -54,4 +56,4 @@
     </ul>
 </nav>
 {% endif %}
-{% endblock %}
+{% endblock content %}

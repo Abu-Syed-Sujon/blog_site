@@ -1,6 +1,7 @@
 '''views for the blog app. '''
 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView)
 from .models import Post
@@ -16,8 +17,29 @@ class PostListView(ListView):
     template_name = 'blog/home.html'
     context_object_name = 'posts'
     ordering = ['-posted_at']
+    # Show five posts per page on the specific-user feed.
+    paginate_by = 5
+
+class UserListView(ListView):
+    """View for listing blog posts by a specific user."""
+    model = Post
+    template_name = 'blog/user_posts.html'
+    context_object_name = 'posts'
+    ordering = ['-posted_at']
     # Show five posts per page on the blog home feed.
     paginate_by = 5
+
+    def get_queryset(self):
+        """Override the default queryset to filter posts by the specified user."""
+        # Specific-user list: fetch the user first so unknown usernames return 404.
+        self.post_author = get_object_or_404(User, username=self.kwargs.get('username'))
+        return Post.objects.filter(author=self.post_author).order_by('-posted_at')  # type: ignore[attr-defined]
+
+    def get_context_data(self, **kwargs):
+        """Add the selected post author to the template context."""
+        context = super().get_context_data(**kwargs)
+        context['post_author'] = self.post_author
+        return context
 
 class PostDetailView(DetailView):
     """Detail view for a single blog post."""
