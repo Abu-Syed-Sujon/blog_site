@@ -11,7 +11,9 @@
         </div>
         <h2><a class="article-title" href="{% url 'post-detail' post.pk %}">{{post.title}}</a></h2>
 
-        <p class="article-title">{{post.content}}</p>
+        
+        {# Home preview: show shortened content only on the home page. #}
+        <p class="article-preview">{{ post.content|truncatewords:30 }}</p>
        <!--<p>Posted by {{post.author}} on {{post.posted_at}}</p>--> 
     </div>
 </article>
