@@ -16,6 +16,8 @@ class PostListView(ListView):
     template_name = 'blog/home.html'
     context_object_name = 'posts'
     ordering = ['-posted_at']
+    # Show five posts per page on the blog home feed.
+    paginate_by = 5
 
 class PostDetailView(DetailView):
     """Detail view for a single blog post."""
