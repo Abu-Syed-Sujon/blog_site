@@ -1,0 +1,14 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+    <div class="content-section">
+        <h2 class="border-bottom mb-3">Check your email</h2>
+        <p>
+            We sent you an activation link. Open that email and click the link to verify your account before logging in.
+        </p>
+        <p class="text-muted">
+            If you are running this project locally with the default console email backend, the email is printed in the terminal where the Django server is running.
+        </p>
+        <a class="btn btn-outline-info" href="{% url 'login' %}">Back to Login</a>
+    </div>
+{% endblock content %}

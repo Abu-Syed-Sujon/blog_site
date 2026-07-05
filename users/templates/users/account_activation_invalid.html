@@ -1,0 +1,11 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+    <div class="content-section">
+        <h2 class="border-bottom mb-3">Activation link invalid</h2>
+        <p>
+            This activation link is invalid or has already been used. Please register again or contact support.
+        </p>
+        <a class="btn btn-outline-info" href="{% url 'register' %}">Register</a>
+    </div>
+{% endblock content %}
