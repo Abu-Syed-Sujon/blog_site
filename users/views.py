@@ -41,8 +41,11 @@ def registration_view(request):
                 settings.DEFAULT_FROM_EMAIL,
                 [user.email],
             )
-            email.send()
-
+            try:
+                 email.send()
+            except Exception as e:
+                print("EMAIL ERROR:", repr(e))
+                raise
             return redirect('account_activation_sent')
         
     else:
