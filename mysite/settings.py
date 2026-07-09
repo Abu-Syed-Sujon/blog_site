@@ -35,21 +35,20 @@ def load_env_file(path):
 
 load_env_file(BASE_DIR / '.env')
 
-print("EMAIL_BACKEND:", os.environ.get("EMAIL_BACKEND"))
-print("EMAIL_HOST_USER:", os.environ.get("EMAIL_HOST_USER"))
-print("EMAIL_HOST_PASSWORD loaded:", bool(os.environ.get("EMAIL_HOST_PASSWORD")))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-l#wsu%(qj8-@+2q2_0$60&sk@pn^3xk)6r3$c*o8g%9p1%qz^5'
+SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = os.getenv(
+    "ALLOWED_HOSTS",
+    "127.0.0.1,localhost"
+).split(",")
 
 # Application definition
 
@@ -68,6 +67,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -142,6 +142,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
@@ -157,9 +160,15 @@ PROFILE_UPDATE_REDIRECT_URL = 'profile'
 
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://127.0.0.1:8000',
-    'http://localhost:8000',
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
 ]
+
+render_domain = os.getenv("RENDER_EXTERNAL_HOSTNAME")
+
+if render_domain:
+    CSRF_TRUSTED_ORIGINS.append(f"https://{render_domain}")
+    
 
 EMAIL_BACKEND = os.environ.get(
     "EMAIL_BACKEND",
