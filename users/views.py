@@ -21,7 +21,7 @@ def registration_view(request):
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_active = False
+            user.is_active = False  # Set to True for immediate activation; set to False for email verification
             user.save()
 
             current_site = get_current_site(request)
@@ -45,7 +45,7 @@ def registration_view(request):
                  email.send()
             except Exception as e:
                 print("EMAIL ERROR:", repr(e))
-                raise
+                #raise
             return redirect('account_activation_sent')
         
     else:
